@@ -154,7 +154,7 @@ int jwErrorPos( );
 //
 void jwObj_string( char *key, char *value );
 void jwObj_int( char *key, int value );
-void jwObj_double( char *key, double value );
+void jwObj_double( char *key, double value, int precision );
 void jwObj_bool( char *key, int oneOrZero );
 void jwObj_null( char *key );
 void jwObj_object( char *key );

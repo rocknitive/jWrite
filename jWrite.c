@@ -57,7 +57,7 @@ void jwPush( JWC_DECL enum jwNodeType nodeType );
 // - initialise with user string buffer of length buflen
 // - isPretty=JW_PRETTY adds \n and spaces to prettify output (else JW_COMPACT)
 //
-void jwOpen( JWC_DECL char *buffer, unsigned int buflen, 
+void jwOpen( JWC_DECL char *buffer, unsigned int buflen,
 				   enum jwNodeType rootType, int isPretty )
 {
 	memset( buffer, 0, buflen );	// zap the whole destination buffer
@@ -150,9 +150,9 @@ void jwObj_int( JWC_DECL char *key, int value )
 	jwObj_raw( JWC_PARAM key, JWC(tmpbuf) );
 }
 
-void jwObj_double( JWC_DECL char *key, double value )
+void jwObj_double( JWC_DECL char *key, double value, int precision )
 {
-	modp_dtoa2( value, JWC(tmpbuf), 6 );
+	modp_dtoa2( value, JWC(tmpbuf), precision );
 	jwObj_raw( JWC_PARAM key, JWC(tmpbuf) );
 }
 
@@ -258,7 +258,7 @@ char *jwErrorToString( int err )
 {
 	switch( err )
 	{
-	case JWRITE_OK:         return "OK"; 
+	case JWRITE_OK:         return "OK";
 	case JWRITE_BUF_FULL:   return "output buffer full";
 	case JWRITE_NOT_ARRAY:	return "tried to write Array value into Object";
 	case JWRITE_NOT_OBJECT:	return "tried to write Object key/value into Array";
