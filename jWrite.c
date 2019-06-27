@@ -321,8 +321,13 @@ void jwPutch( JWC_DECL char c )
 void jwPutstr( JWC_DECL char *str )
 {
 	jwPutch( JWC_PARAM '\"' );
-	while( *str != '\0' )
-		jwPutch( JWC_PARAM *str++ );
+	while( *str != '\0' ) {
+        // escape double quotes and backslashes within strings
+	    if ( *str == '"' || *str == '\\' ) {
+            jwPutch( JWC_PARAM '\\' );
+	    }
+        jwPutch( JWC_PARAM *str++ );
+    }
 	jwPutch( JWC_PARAM '\"' );
 }
 
