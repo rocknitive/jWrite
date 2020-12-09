@@ -191,7 +191,7 @@ int jwClose( struct jWriteControl *jwc );
 int jwErrorPos( struct jWriteControl *jwc );
 void jwObj_string( struct jWriteControl *jwc, char *key, char *value );
 void jwObj_int( struct jWriteControl *jwc, char *key, int value );
-void jwObj_double( struct jWriteControl *jwc, char *key, double value );
+void jwObj_double( struct jWriteControl *jwc, char *key, double value, int precision );
 void jwObj_bool( struct jWriteControl *jwc, char *key, int oneOrZero );
 void jwObj_null( struct jWriteControl *jwc, char *key );
 void jwObj_object( struct jWriteControl *jwc, char *key );
