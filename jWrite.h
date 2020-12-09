@@ -79,7 +79,7 @@
 // TonyWilk, Mar 2015
 //
 // 
-#define JW_GLOBAL_CONTROL_STRUCT	// <--- comment this out to use applic-supplied jWriteControl
+//#define JW_GLOBAL_CONTROL_STRUCT	// <--- comment this out to use applic-supplied jWriteControl
 
 #define JWRITE_STACK_DEPTH 32			// max nesting depth of objects/arrays
 
