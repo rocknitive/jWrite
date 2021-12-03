@@ -10,7 +10,7 @@
 #define _CRT_SECURE_NO_WARNINGS		// stop complaining about deprecated functions
 
 #include <stddef.h>
-#include <stdio.h>
+#include <printf.h>
 #include <string.h>	// memset()
 
 #include "jWrite.h"
