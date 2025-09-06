@@ -1,6 +1,6 @@
 // main.c
 //
-// Test harness command-line for jWrite 
+// Test harness command-line for jWrite
 //
 // TonyWilk
 // 17mar2015
@@ -44,7 +44,7 @@ void jWriteTest()
 
 	jwObj_string( "key", "value" );				// add object key:value pairs
 	jwObj_int( "int", 1 );
-	jwObj_double( "double", 1.234 );
+	jwObj_number( "double", 1.234 );
 	jwObj_null( "nullThing" );
 	jwObj_bool( "bool", 1 );
 	jwObj_array( "EmptyArray" );
@@ -53,7 +53,7 @@ void jWriteTest()
 	jwObj_array( "anArray" );					// array with elements
 		jwArr_string("array one" );
 		jwArr_int( -2 );
-		jwArr_double( 1234.567 );
+		jwArr_number( 1234.567 );
 		jwArr_null();
 		jwArr_bool( 0 );
 		jwArr_object();							// object in array
@@ -87,10 +87,10 @@ void jWriteTest()
 	jwOpen( buffer, buflen, JW_ARRAY, JW_PRETTY );
 	jwArr_string( "String value" );
 	jwArr_int( 1234 );
-	jwArr_double( 567.89012 );
+	jwArr_number( 567.89012 );
 	jwArr_bool( 1 );
 	jwArr_null();
-	jwArr_object();		
+	jwArr_object();
 		// empty object
 	jwEnd();
 	jwArr_object();
@@ -117,7 +117,7 @@ void jWriteTest()
 	jwOpen( buffer, buflen, JW_ARRAY, JW_PRETTY );	// 1
 	jwArr_string( "String value" );					// 2
 	jwArr_int( 1234 );								// 3
-	jwArr_double( 567.89012 );						// 4
+	jwArr_number( 567.89012 );						// 4
 	jwArr_bool( 1 );								// 5
 	jwArr_null();									// 6
 	jwArr_object();									// 7
@@ -126,7 +126,7 @@ void jWriteTest()
 	jwArr_object();									// 8  <-- this is where the error is
 		jwObj_string( "key", "value" );				// 9
 		jwObj_string( "key2", "value2" );			// 10
-	jwEnd();										// 11 
+	jwEnd();										// 11
 	jwArr_array();		// array in array			// 12
 		jwArr_string("Array in array");				// 13
 		jwArr_string("the end");					// 14
@@ -135,7 +135,7 @@ void jWriteTest()
 	jwArr_array();									// 17
 		// empty array
 	jwEnd();										// 18
-	err= jwClose();									
+	err= jwClose();
 
 	printf( buffer );
 	if( err != JWRITE_OK )
@@ -164,7 +164,7 @@ void jWriteTest()
 
 	jwObj_string( &jwc, "key", "value" );
 	jwObj_int( &jwc, "int", 1 );
-	jwObj_double( &jwc, "double", 1.234 );
+	jwObj_number( &jwc, "double", 1.234, 3 );
 	jwObj_null( &jwc, "nullThing" );
 	jwObj_bool( &jwc, "bool", 1 );
 	jwObj_array( &jwc, "EmptyArray" );		// empty array
@@ -172,7 +172,7 @@ void jWriteTest()
 	jwObj_array( &jwc, "anArray" );
 		jwArr_string(&jwc, "array one" );
 		jwArr_int( &jwc, 2 );
-		jwArr_double( &jwc, 1234.567 );
+		jwArr_number( &jwc, 1234.567 );
 		jwArr_null(&jwc);
 		jwArr_bool( &jwc, 0 );
 		jwArr_object( &jwc );
@@ -207,10 +207,10 @@ void jWriteTest()
 	jwOpen( &jwc, buffer, buflen, JW_ARRAY, 1 );
 	jwArr_string( &jwc, "String value" );
 	jwArr_int( &jwc, 1234 );
-	jwArr_double( &jwc, 567.89012 );
+	jwArr_number( &jwc, 567.89012 );
 	jwArr_bool( &jwc, 1 );
 	jwArr_null( &jwc );
-	jwArr_object( &jwc );		
+	jwArr_object( &jwc );
 		// empty object
 	jwEnd( &jwc );
 	jwArr_object( &jwc );
@@ -231,7 +231,7 @@ void jWriteTest()
 	jwOpen( &jwc, buffer, buflen, JW_ARRAY, 1 );		// 1
 	jwArr_string( &jwc, "String value" );				// 2
 	jwArr_int( &jwc, 1234 );							// 3
-	jwArr_double( &jwc, 567.89012 );					// 4
+	jwArr_number( &jwc, 567.89012 );					// 4
 	jwArr_bool( &jwc, 1 );								// 5
 	jwArr_null( &jwc );									// 6
 	jwArr_object( &jwc );								// 7
@@ -240,7 +240,7 @@ void jWriteTest()
 	jwArr_object( &jwc );								// 8  <-- this is where the error is
 		jwObj_string( &jwc, "key", "value" );			// 9
 		jwObj_string( &jwc, "key2", "value2" );			// 10
-	jwEnd( &jwc );										// 11 
+	jwEnd( &jwc );										// 11
 	jwArr_array( &jwc );		// array in array		// 12
 		jwArr_string(&jwc, "Array in array");			// 13
 		jwArr_string(&jwc, "the end");					// 14
