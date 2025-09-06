@@ -56,7 +56,7 @@
 // used by the above examples.
 //
 // To use multiple instances of jWrite, an application has to supply unique instances
-// of jWriteControl structures. 
+// of jWriteControl structures.
 //
 // This feature is enabled by commenting out the definition of JW_GLOBAL_CONTROL_STRUCT
 //
@@ -78,8 +78,14 @@
 //
 // TonyWilk, Mar 2015
 //
-// 
+//
 //#define JW_GLOBAL_CONTROL_STRUCT	// <--- comment this out to use applic-supplied jWriteControl
+
+#ifndef JWRITE_SINGLE_PRECISION
+#define JWRITE_FLOAT double
+#else
+#define JWRITE_FLOAT float
+#endif
 
 #define JWRITE_STACK_DEPTH 32			// max nesting depth of objects/arrays
 
@@ -191,14 +197,14 @@ int jwClose( struct jWriteControl *jwc );
 int jwErrorPos( struct jWriteControl *jwc );
 void jwObj_string( struct jWriteControl *jwc, const char *key, const char *value );
 void jwObj_int( struct jWriteControl *jwc, const char *key, int value );
-void jwObj_double( struct jWriteControl *jwc, const char *key, double value, int precision );
+void jwObj_number( struct jWriteControl *jwc, const char *key, JWRITE_FLOAT value, int precision );
 void jwObj_bool( struct jWriteControl *jwc, const char *key, int oneOrZero );
 void jwObj_null( struct jWriteControl *jwc, const char *key );
 void jwObj_object( struct jWriteControl *jwc, const char *key );
 void jwObj_array( struct jWriteControl *jwc, const char *key );
 void jwArr_string( struct jWriteControl *jwc, const char *value );
 void jwArr_int( struct jWriteControl *jwc, int value );
-void jwArr_double( struct jWriteControl *jwc, double value );
+void jwArr_number( struct jWriteControl *jwc, JWRITE_FLOAT value );
 void jwArr_bool( struct jWriteControl *jwc, int oneOrZero );
 void jwArr_null( struct jWriteControl *jwc );
 void jwArr_object( struct jWriteControl *jwc );

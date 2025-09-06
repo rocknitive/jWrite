@@ -45,7 +45,7 @@ void jwPutch( JWC_DECL char c );
 void jwPutstr( JWC_DECL const char *str );
 void jwPutraw( JWC_DECL const char *str );
 void modp_itoa10(int32_t value, char* str);
-void modp_dtoa2(double value, char* str, int prec);
+void modp_dtoa2(JWRITE_FLOAT value, char* str, int prec);
 void jwPretty( JWC_DECL0 );
 enum jwNodeType jwPop( JWC_DECL0 );
 void jwPush( JWC_DECL enum jwNodeType nodeType );
@@ -150,7 +150,7 @@ void jwObj_int( JWC_DECL const char *key, int value )
 	jwObj_raw( JWC_PARAM key, JWC(tmpbuf) );
 }
 
-void jwObj_double( JWC_DECL const char *key, double value, int precision )
+void jwObj_number( JWC_DECL const char *key, JWRITE_FLOAT value, int precision )
 {
 	modp_dtoa2( value, JWC(tmpbuf), precision );
 	jwObj_raw( JWC_PARAM key, JWC(tmpbuf) );
@@ -215,7 +215,7 @@ void jwArr_int( JWC_DECL int value )
 	jwArr_raw( JWC_PARAM JWC(tmpbuf) );
 }
 
-void jwArr_double( JWC_DECL double value )
+void jwArr_number( JWC_DECL JWRITE_FLOAT value )
 {
 	modp_dtoa2( value, JWC(tmpbuf), 6 );
 	jwArr_raw( JWC_PARAM JWC(tmpbuf) );
@@ -430,7 +430,7 @@ void modp_itoa10(int32_t value, char* str)
  * Powers of 10
  * 10^0 to 10^9
  */
-static const double pow10[] = {1, 10, 100, 1000, 10000, 100000, 1000000,
+static const JWRITE_FLOAT pow10[] = {1, 10, 100, 1000, 10000, 100000, 1000000,
                                10000000, 100000000, 1000000000};
 
 /** \brief convert a floating point number to char buffer with a
@@ -448,16 +448,16 @@ static const double pow10[] = {1, 10, 100, 1000, 10000, 100000, 1000000,
  * \param[in] precision  Number of digits to the right of the decimal point.
  *    Can only be 0-9.
  */
-void modp_dtoa2(double value, char* str, int prec)
+void modp_dtoa2(JWRITE_FLOAT value, char* str, int prec)
 {
     /* if input is larger than thres_max, revert to exponential */
-    const double thres_max = (double)(0x7FFFFFFF);
+    const JWRITE_FLOAT thres_max = (JWRITE_FLOAT)(0x7FFFFFFF);
     int count;
-    double diff = 0.0;
+    JWRITE_FLOAT diff = 0.0;
     char* wstr = str;
 	int neg= 0;
 	int whole;
-	double tmp;
+	JWRITE_FLOAT tmp;
 	uint32_t frac;
 
     /* Hacky test for NaN
