@@ -103,7 +103,7 @@ struct jWriteControl {
     char* buffer;                                     // pointer to application's buffer
     unsigned int buflen;                              // length of buffer
     char* bufp;                                       // current write position in buffer
-    char tmpbuf[32];                                  // local buffer for int/double convertions
+    char tmpbuf[32];                                  // local buffer for int/float conversions
     int error;                                        // error code
     int callNo;                                       // API call on which error occurred
     struct jwNodeStack nodeStack[JWRITE_STACK_DEPTH]; // stack of array/object nodes
@@ -155,7 +155,7 @@ int jwErrorPos();
 //
 void jwObj_string(const char* key, const char* value);
 void jwObj_int(const char* key, int value);
-void jwObj_double(const char* key, double value, int precision);
+void jwObj_number(const char* key, JWRITE_FLOAT value, int precision);
 void jwObj_bool(const char* key, int oneOrZero);
 void jwObj_null(const char* key);
 void jwObj_object(const char* key);
@@ -166,7 +166,7 @@ void jwObj_array(const char* key);
 //
 void jwArr_string(const char* value);
 void jwArr_int(int value);
-void jwArr_double(double value);
+void jwArr_number(JWRITE_FLOAT value);
 void jwArr_bool(int oneOrZero);
 void jwArr_null();
 void jwArr_object();

@@ -31,7 +31,7 @@ struct jWriteControl g_jWriteControl; // global control struct
 #define JWC_PARAM                   // pointer to struct is empty
 #define JWC_PARAM0
 #else
-#define JWC_DECL   struct jWriteControl* jwc, // function parameter is ptr to control struct
+#define JWC_DECL   struct jWriteControl *jwc, // function parameter is ptr to control struct
 #define JWC_DECL0  struct jWriteControl* jwc  // function parameter, no params
 #define JWC(x)     jwc->x                     // functions use pointer
 #define JWC_PARAM  jwc,                       // pointer to stuct
@@ -397,9 +397,8 @@ static const JWRITE_FLOAT pow10[] = {1, 10, 100, 1000, 10000, 100000, 1000000, 1
  */
 void modp_dtoa2(JWRITE_FLOAT value, char* str, int prec) {
     /* if input is larger than thres_max, revert to exponential */
-    const JWRITE_FLOAT thres_max = (JWRITE_FLOAT) (0x7FFFFFFF);
     int count;
-    JWRITE_FLOAT diff = 0.0;
+    JWRITE_FLOAT diff = 0;
     char* wstr = str;
     int neg = 0;
     int whole;
@@ -438,36 +437,39 @@ void modp_dtoa2(JWRITE_FLOAT value, char* str, int prec) {
     frac = (uint32_t) (tmp);
     diff = tmp - frac;
 
-    if (diff > 0.5) {
+    if (diff > 0.5f) {
         ++frac;
         /* handle rollover, e.g.  case 0.99 with prec 1 is 1.0  */
         if (frac >= pow10[prec]) {
             frac = 0;
             ++whole;
         }
-    } else if (diff == 0.5 && ((frac == 0) || (frac & 1))) {
+    } else if (diff == 0.5f && ((frac == 0) || (frac & 1))) {
         /* if halfway, round up if odd, OR
            if last digit is 0.  That last part is strange */
         ++frac;
     }
 
-    /* for very large numbers switch back to native sprintf for exponentials.
-       anyone want to write code to replace this? */
+#ifndef JWRITE_SINGLE_PRECISION
+    const JWRITE_FLOAT thres_max = (JWRITE_FLOAT) (0x7FFFFFFF);
+    /* for very large numbers switch back to native sprintf for exponentials. */
     /*
       normal printf behavior is to print EVERY whole number digit
-      which can be 100s of characters overflowing your buffers == bad
+      which can be 100s of characters
+     * overflowing your buffers == bad
     */
     if (value > thres_max) {
         sprintf(str, "%e", neg ? -value : value);
         return;
     }
+#endif
 
     if (prec == 0) {
         diff = value - whole;
-        if (diff > 0.5) {
+        if (diff > 0.5f) {
             /* greater than 0.5, round up, e.g. 1.6 -> 2 */
             ++whole;
-        } else if (diff == 0.5 && (whole & 1)) {
+        } else if (diff == 0.5f && (whole & 1)) {
             /* exactly 0.5 and ODD, then round up */
             /* 1.5 -> 2, but 2.5 -> 2 */
             ++whole;
